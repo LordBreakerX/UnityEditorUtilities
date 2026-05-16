@@ -1,0 +1,120 @@
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace LordBreakerX.EditorUtilities
+{
+    public class ListItem<T> : VisualElement
+    {
+        private const string ITEM_UXML_PATH = "Packages/com.lordbreakerx.editorutilities/Editor/ListPanel/ListItemUI.uxml";
+
+        private TextField _renameField;
+
+        private Label _elementLabel;
+
+        private T _data;
+
+        protected ListPanel<T> ParentPanel { get; private set; }
+
+        protected ListView ParentListView { get; private set; }
+
+        public ListItem(ListPanel<T> parentPanel, ListView parentListView)
+        {
+            VisualTreeAsset treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(ITEM_UXML_PATH);
+            treeAsset.CloneTree(this);
+
+            _renameField = this.Q<TextField>("rename-field");
+            _elementLabel = this.Q<Label>("element-label");
+
+            ParentListView = parentListView;
+            ParentPanel = parentPanel;
+
+            this.AddManipulator(new ContextualMenuManipulator(CreateContextMenu));
+        }
+
+        private void CreateContextMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.ClearItems();
+
+            evt.menu.AppendAction($"Rename {ParentPanel.ItemDisplayName}", (action) =>
+            {
+                StartRename();
+            });
+
+            evt.menu.AppendAction($"Delete {ParentPanel.ItemDisplayName}", (action) => 
+            {
+                if (_data != null)
+                {
+                    ParentListView.itemsSource.Remove(_data);
+                    ParentListView.Rebuild();
+                }
+            });
+
+            evt.menu.AppendAction($"Duplicate {ParentPanel.ItemDisplayName}", (action) => 
+            {
+                if (_data != null)
+                {
+                    T copiedData = ParentPanel.CopyItem(_data);
+                    ParentListView.itemsSource.Add(copiedData);
+
+                    ParentListView.Rebuild();
+                }
+            });
+
+            evt.menu.AppendSeparator();
+        }
+
+        public void SetName(string name)
+        {
+            _renameField.value = name;
+            _elementLabel.text = name;
+        } 
+
+        public void SetData(T data)
+        {
+            _data = data;
+        }
+
+        public void RegisterEvents()
+        {
+            _renameField.RegisterCallback<BlurEvent>(OnFinishedRename);
+        }
+
+        public void UnregisterEvents()
+        {
+            _renameField.UnregisterCallback<BlurEvent>(OnFinishedRename);
+        }
+
+        private void OnFinishedRename(BlurEvent evt)
+        {
+            _elementLabel.text = _renameField.value;
+
+            if (_data != null)
+            {
+                int index = ParentListView.itemsSource.IndexOf(_data);
+
+                ParentPanel.SetItemName(ParentListView.itemsSource, index, _renameField.value);
+            }
+
+            ParentListView.Rebuild();
+        }
+
+        public void StartRename()
+        {
+            _renameField.style.display = DisplayStyle.Flex;
+            _elementLabel.style.display = DisplayStyle.None;
+
+            _renameField.schedule.Execute(() =>
+            {
+                _renameField.Focus();
+                _renameField.SelectAll();
+            });
+        }
+        
+        public void StopRename()
+        {
+            _renameField.style.display = DisplayStyle.None;
+            _elementLabel.style.display = DisplayStyle.Flex;
+        }
+    }
+}

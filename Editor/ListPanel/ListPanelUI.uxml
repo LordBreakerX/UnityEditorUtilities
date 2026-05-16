@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<Style src="ListPanelStyles.uss" />
+
+    <ui:VisualElement name="list-panel-container" style="flex-grow: 1;">
+        <!-- Header -->
+        <ui:VisualElement name="header-container">
+            <ui:Label name="header-label" text="Insert Title"/>
+            <ui:VisualElement style="flex-grow: 1;"/>
+            <ui:Button name="header-button" text="+"/>
+        </ui:VisualElement>
+
+        <!-- List -->
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:ListView name="list-container" style="flex-grow: 1;"/>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

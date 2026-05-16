@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    
+    <Style src="EditorPanelStyles.uss" />
+
+    <ui:VisualElement name="properties-panel-container" style="flex-grow: 1;">
+        <!-- Header Container -->
+        <ui:VisualElement name="header-container">
+            <ui:Label name="header-label" text="Insert Title"/>
+            <ui:VisualElement style="flex-grow: 1;"/>
+        </ui:VisualElement>
+
+        <!-- Panel Container -->
+
+        <ui:VisualElement name="content-container" style="flex-grow:1;"/>
+
+    </ui:VisualElement>
+</ui:UXML>
