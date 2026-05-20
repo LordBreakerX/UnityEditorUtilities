@@ -17,6 +17,8 @@ namespace LordBreakerX.EditorUtilities
 
         public virtual string ItemDisplayName { get => "Element"; }
 
+        public abstract string HeaderTitle { get; set; }
+
         public ListPanel()
         {
             VisualTreeAsset uiTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(LIST_UXML_PATH);
@@ -50,6 +52,7 @@ namespace LordBreakerX.EditorUtilities
             _listView.Rebuild();
 
             _headerTitle = this.Q<Label>("header-label");
+            _headerTitle.text = HeaderTitle;
 
             _addButton = this.Q<Button>("header-button");
             _addButton.clicked += () => 
