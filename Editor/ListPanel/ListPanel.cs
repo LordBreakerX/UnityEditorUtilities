@@ -60,12 +60,7 @@ namespace LordBreakerX.EditorUtilities
                 if (_listView.itemsSource != null)
                 {
                     T item = CreateItem();
-
-                    if (item != null) 
-                    {
-                        _listView.itemsSource.Add(item);
-                        _listView.Rebuild();
-                    }
+                    AddItem(item);
                 }
             };
         }
@@ -79,18 +74,22 @@ namespace LordBreakerX.EditorUtilities
                     if (_listView.itemsSource != null)
                     {
                         T item = CreateItem();
-
-                        if (item != null) 
-                        {
-                            _listView.itemsSource.Add(item);
-                            _listView.Rebuild();
-                        }
+                        AddItem(item);
                     }
                 });
             });
         }
 
         protected abstract T CreateItem();
+
+        public void AddItem(T item) 
+        {
+            if (item != null) 
+            {
+                _listView.itemsSource.Add(item);
+                _listView.Rebuild();
+            }
+        }
 
         protected abstract void OnSelectionChanged(T selectedItem);
 
