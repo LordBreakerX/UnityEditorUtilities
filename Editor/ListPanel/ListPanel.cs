@@ -91,6 +91,15 @@ namespace LordBreakerX.EditorUtilities
             }
         }
 
+        public void RemoveItem(T item)
+        {
+            if (item != null)
+            {
+                _listView.itemsSource.Remove(item);
+                _listView.Rebuild();
+            }
+        }
+
         protected abstract void OnSelectionChanged(T selectedItem);
 
         private VisualElement MakeItem()
