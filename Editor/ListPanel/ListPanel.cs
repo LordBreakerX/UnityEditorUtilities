@@ -19,6 +19,8 @@ namespace LordBreakerX.EditorUtilities
 
         public abstract string HeaderTitle { get; set; }
 
+        protected ListView PanelListView {get => _listView; }
+
         public ListPanel()
         {
             VisualTreeAsset uiTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(LIST_UXML_PATH);
@@ -82,7 +84,7 @@ namespace LordBreakerX.EditorUtilities
 
         protected abstract T CreateItem();
 
-        public void AddItem(T item) 
+        public virtual void AddItem(T item) 
         {
             if (item != null) 
             {
@@ -91,7 +93,7 @@ namespace LordBreakerX.EditorUtilities
             }
         }
 
-        public void RemoveItem(T item)
+        public virtual void RemoveItem(T item)
         {
             if (item != null)
             {
@@ -149,7 +151,7 @@ namespace LordBreakerX.EditorUtilities
             _headerTitle.text = headerTitle;
         }
 
-        private string GetDefaultName(int index)
+        protected virtual string GetDefaultName(int index)
         {
             return $"Element {index}";
         }
