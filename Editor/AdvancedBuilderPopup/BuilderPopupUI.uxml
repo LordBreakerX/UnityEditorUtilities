@@ -8,9 +8,9 @@
 			<uie:ToolbarSearchField name="options-search" />
 			<ui:Label name="header-label" text="Builder" />
 		</ui:VisualElement>
-		
-		<!-- Options Container -->
-		<ui:ListView name="options-container" style="flex-grow: 1;" />
+
+		<ui:VisualElement name="contents" content-container="contents" style="flex-grow: 1;" />
+
 	</ui:VisualElement>
 
 </ui:UXML>

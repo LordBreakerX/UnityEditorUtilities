@@ -14,13 +14,13 @@ namespace LordBreakerX.EditorUtilities
 
         private Action<ElementBuilder<T>> _onClose;
 
-        private ListView _listView;
+        private Dictionary<string, ElementGroup<T>> _builderGroups = new Dictionary<string, ElementGroup<T>>();
 
-        private ToolbarSearchField _searchField;
+        private BuilderListView<ElementBuilder<T>> _buildersListView;
 
-        private List<ElementBuilder<T>> _builders;
+        private BuilderListView<ElementGroup<T>> _groupsListView;
 
-        private List<ElementBuilder<T>> _filteredBuilders;
+        private List<ElementGroup<T>> _groupsList = new List<ElementGroup<T>>();
 
         public virtual string Title { get => "Builder"; }
 
@@ -28,10 +28,19 @@ namespace LordBreakerX.EditorUtilities
         {
             _onClose = onClose;
 
-            _builders = GetBuilders();
+            foreach(ElementBuilder<T> builder in GetBuilders())
+            {
+                string groupName = builder.ElementGroup;
 
-            _filteredBuilders = new List<ElementBuilder<T>>();
-            _filteredBuilders.AddRange(_builders);
+                if (!_builderGroups.ContainsKey(groupName))
+                {
+                    ElementGroup<T> group = new ElementGroup<T>(groupName);
+                    _builderGroups.Add(groupName, group);
+                    _groupsList.Add(group);
+                }
+
+                _builderGroups[groupName].AddBuilder(builder);
+            }
         }
 
         protected abstract List<ElementBuilder<T>> GetBuilders();
@@ -46,84 +55,71 @@ namespace LordBreakerX.EditorUtilities
             VisualTreeAsset uiTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML_PATH);
             uiTree.CloneTree(root);
 
-            _listView = root.Q<ListView>("options-container");
-            _listView.itemsSource = _filteredBuilders;
-            _listView.selectionChanged += OnSelectionChanged;
-            _listView.makeItem = MakeItem;
-            _listView.bindItem = BindItem;
-            _listView.Rebuild();
+            // view for viewing builders
+            _buildersListView = new BuilderListView<ElementBuilder<T>>();
+            _buildersListView.GetDisplayName = (builder) =>
+            {
+                return builder.DisplayName;
+            };
+
+            _buildersListView.GetTexture = (builder) =>
+            {
+                return builder.ElementIcon;
+            };
+
+            _buildersListView.style.display = DisplayStyle.None;
+
+            _buildersListView.selectionChanged += OnElementSelected;
+
+            // view for viewing groups
+            _groupsListView = new BuilderListView<ElementGroup<T>>();
+            _groupsListView.GetDisplayName = (group) =>
+            {
+                return group.GroupName;
+            };
+
+            _groupsListView.selectionChanged += OnGroupSelected;
+            _groupsListView.SetElements(_groupsList);
+            _groupsListView.SetDisplayArrow(true);
 
             Label label = root.Q<Label>("header-label");
             label.text = Title;
 
-            _searchField = root.Q<ToolbarSearchField>("options-search");
-            _searchField.RegisterValueChangedCallback(OnFilterChanged);
+            //_searchField = root.Q<ToolbarSearchField>("options-search");
+            //_searchField.RegisterValueChangedCallback(OnFilterChanged);
+
+            root.Add(_buildersListView);
+            root.Add(_groupsListView);
 
             return root;
         }
 
-        private void OnFilterChanged(ChangeEvent<string> evt)
+        private void OnElementSelected(IEnumerable<object> enumerable)
         {
-            _filteredBuilders.Clear();
-
-            if (string.IsNullOrEmpty(evt.newValue))
-            {
-                _filteredBuilders.AddRange(_builders);
-            }
-            else
-            {
-                UpdateFilteredBuilders();
-            }
-
-            _listView.RefreshItems();
-        }
-
-        private void UpdateFilteredBuilders()
-        {
-            foreach (ElementBuilder<T> item in _builders)
-            {
-                Debug.Log($" {item.DisplayName} == {_searchField.value} | {item.DisplayName.Contains(_searchField.value)}");
-
-                if (item.DisplayName.Contains(_searchField.value))
-                {
-                    _filteredBuilders.Add(item);
-                }
-            }
-        }
-
-        private void BindItem(VisualElement element, int index)
-        {
-            ElementBuilder<T> elementInfo = (ElementBuilder<T>)_listView.itemsSource[index];
-
-            if (element is Label label)
-            {
-                label.text = elementInfo.DisplayName;
-            }
-        }
-
-        private VisualElement MakeItem()
-        {
-            Label label = new Label();
-            label.style.paddingLeft = 20;
-            label.style.paddingRight = 20;
-            label.style.unityTextAlign = TextAnchor.MiddleLeft;
-            return label;
-        }
-
-        private void OnSelectionChanged(IEnumerable<object> obj)
-        {
-            if (_listView.selectedItem != null && editorWindow != null) 
+            if (_buildersListView.selectedItem != null && editorWindow != null)
             {
                 editorWindow.Close();
+            }
+        }
+
+        private void OnGroupSelected(IEnumerable<object> enumerable)
+        {
+            if (_groupsListView.selectedItem is ElementGroup<T> group)
+            {
+                _groupsListView.style.display = DisplayStyle.None;
+                _buildersListView.style.display = DisplayStyle.Flex;
+
+                _buildersListView.SetElements(group.GetBuilders());
             }
         }
 
         public sealed override void OnClose()
         {
 
-            if (_onClose != null && _listView.selectedItem != null)
+            if (_buildersListView.selectedItem != null)
             {
-                _onClose.Invoke((ElementBuilder<T>)_listView.selectedItem);
+                ElementBuilder<T> builder = (ElementBuilder<T>)_buildersListView.selectedItem;
+                _onClose?.Invoke(builder);
             }
         }
     }

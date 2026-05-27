@@ -21,14 +21,24 @@ namespace LordBreakerX.EditorUtilities
 
         public T Value { get => _value; }
 
-        public ElementBuilder(string elementGroup, string displayName, T value)
+        public ElementBuilder(Texture elementIcon, string elementGroup, string displayName, T value)
         {
             _elementGroup = elementGroup;
             _displayName = displayName;
             _value = value;
+            _elementIcon = elementIcon;
         }
 
-        public ElementBuilder(string displayName, T value) : this("Custom", displayName, value)
+        public ElementBuilder(Texture elementIcon, string displayName, T value) : this(elementIcon, "Custom", displayName, value)
+        {
+
+        }
+
+        public ElementBuilder(string elementGroup, string displayName, T value) : this(null, elementGroup, displayName, value)
+        {
+        }
+
+        public ElementBuilder(string displayName, T value) : this(null, "Custom", displayName, value)
         {
 
         }
