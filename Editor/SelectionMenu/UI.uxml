@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    
+    <Style src="Styles.uss" />
+
+    <ui:VisualElement name="selection-menu-container" style="flex-grow: 1;">
+        <!-- Header Container -->
+        <ui:VisualElement name="header-container">
+            <ui:Label name="back-arrow" text="&lt;" />
+            <ui:Label name="header" text="Insert Text" style="flex-grow:1;" />
+        </ui:VisualElement>
+
+        <!-- Panels Container -->
+        <ui:VisualElement name="subpanels-container" style="flex-grow:1;"/>
+
+    </ui:VisualElement>
+</ui:UXML>

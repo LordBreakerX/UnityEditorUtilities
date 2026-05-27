@@ -1,0 +1,26 @@
+#header-container {
+	background-color: #434343;
+    border-bottom-color: #2A2A2A;
+    flex-direction: row;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 5px;
+    padding-right: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-bottom-width: 2px;
+    height: 28px;
+    min-height: 28px;
+    font-size: 14px;
+    -unity-font-style: bold;
+    align-items: center;
+    justify-content: flex-start;
+    -unity-text-align: middle-left;
+}
+
+#header-container:hover 
+{
+    background-color: #474747;
+}
