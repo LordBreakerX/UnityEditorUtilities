@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+	<Style src="BuilderPopupStyles.uss" />
+	
+	<ui:VisualElement style="flex-grow:1;">
+		<!-- Toolbar -->
+		<ui:VisualElement name="toolbar-container">
+			<uie:ToolbarSearchField name="options-search" />
+			<ui:Label name="header-label" text="Builder" />
+		</ui:VisualElement>
+		
+		<!-- Options Container -->
+		<ui:ListView name="options-container" style="flex-grow: 1;" />
+	</ui:VisualElement>
+
+</ui:UXML>
