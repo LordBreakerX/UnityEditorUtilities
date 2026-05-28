@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace LordBreakerX.EditorUtilities
 {
-    public sealed class BuilderMenuPanel<TValue> : NavigationPanel
+    public class BuilderMenuPanel<TValue> : NavigationPanel
     {
         private List<Builder<TValue>> _builders;
 
@@ -55,10 +55,12 @@ namespace LordBreakerX.EditorUtilities
             if (builder.Icon == null)
             {
                 displayIconImage.style.display = DisplayStyle.None;
+                displayNameLabel.style.paddingLeft = 32;
             }
             else
             {
                 displayIconImage.image = builder.Icon;
+                displayNameLabel.style.paddingLeft = 0;
                 displayIconImage.style.display = DisplayStyle.Flex;
             }
         }
@@ -77,6 +79,19 @@ namespace LordBreakerX.EditorUtilities
         {
             _builders.Add(builder);
             _buildersView.RefreshItems();
+        }
+
+        public void SetBuilders(List<Builder<TValue>> builders)
+        {
+            _builders = builders;
+            _buildersView.itemsSource = _builders;
+            _buildersView.Rebuild();
+        }
+
+        public void RemoveBuilders()
+        {
+            _builders.Clear();
+            _buildersView.Rebuild();
         }
 
         public void SetBuilderSelectedCallback(Action<Builder<TValue>> onBuilderSelected)

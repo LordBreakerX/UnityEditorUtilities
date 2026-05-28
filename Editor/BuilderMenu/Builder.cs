@@ -19,6 +19,14 @@ namespace LordBreakerX.EditorUtilities
             Value = value;
         }
 
+        public Builder(Texture icon, string name, TValue value)
+        {
+            Icon = icon;
+            Group = "Custom";
+            Name = name;
+            Value = value;
+        }
+
         public Builder(string group, string name, TValue value)
         {
             Icon = null;

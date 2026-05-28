@@ -12,6 +12,5 @@
 
         <!-- Panels Container -->
         <ui:VisualElement name="subpanels-container" style="flex-grow:1;"/>
-
     </ui:VisualElement>
 </ui:UXML>

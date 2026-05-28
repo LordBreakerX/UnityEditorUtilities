@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace LordBreakerX.EditorUtilities
@@ -15,6 +17,8 @@ namespace LordBreakerX.EditorUtilities
 
         private Builder<TValue> _selectedBuilder;
 
+        private List<Builder<TValue>> _allBuilders = new List<Builder<TValue>>();
+
         protected abstract string BuilderTitle { get; }
 
         public BuilderMenu(Action<Builder<TValue>> onClose)
@@ -22,12 +26,43 @@ namespace LordBreakerX.EditorUtilities
             _onClose = onClose;
 
             _menu = new NavigationMenu(BuilderTitle);
+            
+            ToolbarSearchField searchField = new ToolbarSearchField();
+            searchField.RegisterValueChangedCallback(OnSearchChanged);
 
+            _menu.AddExtraPanel(new BuilderMenuPanel<TValue>("Search"));
+
+            _menu.AddHeader(searchField);
             _menu.style.flexGrow = 1;
             _menu.style.width = 300;
             _menu.style.height = 400;
 
             RefreshMenu();
+        }
+
+        private void OnSearchChanged(ChangeEvent<string> evt)
+        {
+            if (string.IsNullOrEmpty(evt.newValue))
+            {
+                _menu.ChangePanel(null);
+            }
+            else
+            {
+                _menu.ChangeToExtraPanel();
+
+                string filter = evt.newValue.ToLower();
+
+                BuilderMenuPanel<TValue> searchPanel = (BuilderMenuPanel<TValue>)_menu.ExtraPanel;
+                searchPanel.RemoveBuilders();
+
+                foreach (Builder<TValue> builder in _allBuilders)
+                {
+                    if (builder.Name.ToLower().Contains(filter))
+                    {
+                        searchPanel.AddBuilder(builder);
+                    }
+                }
+            }
         }
 
         public void RefreshMenu()
@@ -53,6 +88,8 @@ namespace LordBreakerX.EditorUtilities
                 }
 
                 groupPanel.AddBuilder(builder);
+
+                _allBuilders.Add(builder);
             }
         }
 
