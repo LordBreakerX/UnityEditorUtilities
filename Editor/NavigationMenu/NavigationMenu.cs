@@ -46,8 +46,7 @@ namespace LordBreakerX.EditorUtilities
 
         private void CreateSelectorPanel()
         {
-            NavigationPanel selector = new NavigationPanel();
-            selector.HeaderText = _header;
+            NavigationPanel selector = new NavigationPanel(_header);
             selector.name = "selector-container";
 
             ListView panelsView = new ListView();
@@ -126,6 +125,41 @@ namespace LordBreakerX.EditorUtilities
 
             _extraPanel.HeaderText = panelTitle;
             _panelsContainer.Insert(1, _extraPanel);
+
+            _selectorPanel.Q<ListView>().RefreshItems();
+        }
+
+        public void RemovePanel(NavigationPanel panel)
+        {
+            if (panel == _selectorPanel || panel == _extraPanel) return;
+
+            if (_panelsContainer.Contains(panel))
+                _panelsContainer.Remove(panel);
+
+            if (_panels.Contains(panel))
+                _panels.Remove(panel);
+
+            _selectorPanel.Q<ListView>().RefreshItems();
+        }
+
+        public void RemovePanels()
+        {
+            foreach (NavigationPanel panel in _panels)
+            {
+                _panelsContainer.Remove(panel);
+            }
+
+            _panels.Clear();
+        }
+
+        public void RemoveExtraPanel()
+        {
+            if (_panelsContainer.Contains(_extraPanel))
+            {
+                _panelsContainer.Remove(_extraPanel);
+            }
+
+            _extraPanel = null;
         }
 
         public void ChangeToExtraPanel()

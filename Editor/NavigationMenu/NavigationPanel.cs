@@ -36,11 +36,6 @@ namespace LordBreakerX.EditorUtilities
             _panelsContainer = this.Q<VisualElement>("subpanels-container");
         }
 
-        public NavigationPanel() : this("Example Header")
-        {
-
-        }
-
         public void SetHeader(string header)
         {
             _headerLabel.text = header;
