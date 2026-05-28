@@ -5,19 +5,21 @@ using UnityEngine.UIElements;
 
 namespace LordBreakerX.EditorUtilities
 {
-    public class SelectionMenu : VisualElement
+    public class NavigationMenu : VisualElement
     {
         private VisualElement _panelsContainer;
 
-        private SelectionPanel _selectorPanel;
+        private NavigationPanel _selectorPanel;
 
-        private SelectionPanel _currentPanel;
+        private NavigationPanel _extraPanel;
 
-        private List<SelectionPanel> _panels = new List<SelectionPanel>();
+        private NavigationPanel _currentPanel;
+
+        private List<NavigationPanel> _panels = new List<NavigationPanel>();
 
         private string _header;
 
-        public SelectionMenu(string header)
+        public NavigationMenu(string header)
         {
             _header = header;
             _panelsContainer = new VisualElement();
@@ -27,7 +29,7 @@ namespace LordBreakerX.EditorUtilities
 
             foreach(VisualElement element in _panelsContainer.Children())
             {
-                if (element is SelectionPanel panel)
+                if (element is NavigationPanel panel)
                 {
                     panel.style.display = DisplayStyle.None;
                     _panels.Add(panel);
@@ -37,14 +39,14 @@ namespace LordBreakerX.EditorUtilities
             CreateSelectorPanel();
         }
 
-        public SelectionMenu() : this("Selector")
+        public NavigationMenu() : this("Selector")
         {
 
         }
 
         private void CreateSelectorPanel()
         {
-            SelectionPanel selector = new SelectionPanel();
+            NavigationPanel selector = new NavigationPanel();
             selector.HeaderText = _header;
             selector.name = "selector-container";
 
@@ -99,15 +101,13 @@ namespace LordBreakerX.EditorUtilities
         {
             var listView = _selectorPanel.Q<ListView>();
 
-            Debug.Log(listView.selectedItem);
-
-            if (listView.selectedItem is SelectionPanel panel)
+            if (listView.selectedItem is NavigationPanel panel)
             {
                 ChangePanel(panel);
             }
         }
 
-        public void AddPanel(SelectionPanel panel)
+        public void AddPanel(NavigationPanel panel)
         {
             panel.SetBackArrow(true);
             panel.SetBackManipulator(OnBackClicked);
@@ -119,15 +119,29 @@ namespace LordBreakerX.EditorUtilities
             _selectorPanel.Q<ListView>().RefreshItems();
         }
 
+        public void AddExtraPanel(string panelTitle, NavigationPanel panel)
+        {
+            _extraPanel = panel;
+            _extraPanel.style.display = DisplayStyle.None;
+
+            _extraPanel.HeaderText = panelTitle;
+            _panelsContainer.Insert(1, _extraPanel);
+        }
+
+        public void ChangeToExtraPanel()
+        {
+            if (_extraPanel != null)
+            {
+                ChangePanel(_extraPanel);
+            }
+        }
+
         private void OnBackClicked()
         {
             ChangePanel(_selectorPanel);
-
-            var listView = _selectorPanel.Q<ListView>();
-            listView.ClearSelection();
         }
 
-        public void ChangePanel(SelectionPanel currentPanel)
+        public void ChangePanel(NavigationPanel currentPanel)
         {
             if (currentPanel == null) return;
 

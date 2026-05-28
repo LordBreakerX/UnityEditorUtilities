@@ -1,14 +1,12 @@
 using System;
-using System.Runtime.Remoting.Messaging;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace LordBreakerX.EditorUtilities
 {
-    public class SelectionPanel : VisualElement
+    public class NavigationPanel : VisualElement
     {
-        private const string UI_PATH = "Packages/com.lordbreakerx.editorutilities/Editor/SelectionMenu/UI.uxml";
+        private const string UI_PATH = "Packages/com.lordbreakerx.editorutilities/Editor/NavigationMenu/UI.uxml";
 
         public const string BACK_ARROW = "<";
         public const string FORWARD_ARROW = ">";
@@ -22,7 +20,7 @@ namespace LordBreakerX.EditorUtilities
 
         public string HeaderText { get => _headerLabel.text; set => _headerLabel.text = value; }
 
-        public SelectionPanel(string header)
+        public NavigationPanel(string header)
         {
             VisualTreeAsset uiTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UI_PATH);
             uiTree.CloneTree(this);
@@ -38,7 +36,7 @@ namespace LordBreakerX.EditorUtilities
             _panelsContainer = this.Q<VisualElement>("subpanels-container");
         }
 
-        public SelectionPanel() : this("Example Header")
+        public NavigationPanel() : this("Example Header")
         {
 
         }
