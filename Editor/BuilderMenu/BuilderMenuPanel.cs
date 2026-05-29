@@ -32,6 +32,10 @@ namespace LordBreakerX.EditorUtilities
             root.style.flexDirection = FlexDirection.Row;
 
             Image icon = new Image() { name = "display-icon" };
+            icon.style.width = 16;
+            icon.style.height = 16;
+            icon.scaleMode = ScaleMode.ScaleToFit;
+            icon.style.flexShrink = 0;
 
             Label header = new Label() { name = "display-name" };
             header.style.unityTextAlign = TextAnchor.MiddleLeft;
