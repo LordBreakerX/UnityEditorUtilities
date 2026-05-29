@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LordBreakerX.EditorUtilities
 {
-    public static class IconUtility : MonoBehaviour
+    public static class IconUtility
     {
         public static Texture GetTypeIcon(System.Type type)
         {
