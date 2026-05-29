@@ -25,10 +25,13 @@ namespace LordBreakerX.EditorUtilities
             VisualTreeAsset treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(ITEM_UXML_PATH);
             treeAsset.CloneTree(this);
 
+            VisualElement container = this.Q<VisualElement>("list-item-container");
+            conainer.style.flexDirection = FlexDirection.Row;
+
             _headerIcon = this.Q<Image>("header-icon");
             _headerIcon.style.display = DisplayStyle.None;
-            _headerIcon.style.width = 32;
-            _headerIcon.style.height = 32;
+            _headerIcon.style.width = 16;
+            _headerIcon.style.height = 16;
             _headerIcon.scaleMode = ScaleMode.ScaleToFit;
             _headerIcon.style.flexShrink = 0;
             _headerIcon.style.paddingRight = 10;
