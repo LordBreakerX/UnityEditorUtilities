@@ -31,6 +31,7 @@ namespace LordBreakerX.EditorUtilities
             _headerIcon = this.Q<Image>("header-icon");
             _headerIcon.style.display = DisplayStyle.None;
             _headerIcon.scaleMode = ScaleMode.ScaleToFit;
+            _headerIcon.width = 32;
             _headerIcon.style.flexShrink = 1;
             _headerIcon.style.paddingRight = 10;
 
