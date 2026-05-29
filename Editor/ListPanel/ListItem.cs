@@ -26,7 +26,7 @@ namespace LordBreakerX.EditorUtilities
             treeAsset.CloneTree(this);
 
             VisualElement container = this.Q<VisualElement>("list-item-container");
-            conainer.style.flexDirection = FlexDirection.Row;
+            container.style.flexDirection = FlexDirection.Row;
 
             _headerIcon = this.Q<Image>("header-icon");
             _headerIcon.style.display = DisplayStyle.None;
