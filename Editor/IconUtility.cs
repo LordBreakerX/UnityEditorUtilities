@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace LordBreakerX.EditorUtilities
 {
-    public class IconUtility : MonoBehaviour
+    public static class IconUtility : MonoBehaviour
     {
-        public Texture GetTypeIcon(System.Type type)
+        public static Texture GetTypeIcon(System.Type type)
         {
             MonoScript script = MonoImporter.GetAllRuntimeMonoScripts().FirstOrDefault(script => script.GetClass() == type);
 
@@ -16,7 +16,7 @@ namespace LordBreakerX.EditorUtilities
                 return null;
         }
 
-        public Texture GetTypeIcon<T> ()
+        public static Texture GetTypeIcon<T> ()
         {
             System.Type type = typeof(T);
             MonoScript script = MonoImporter.GetAllRuntimeMonoScripts().FirstOrDefault(script => script.GetClass() == type);

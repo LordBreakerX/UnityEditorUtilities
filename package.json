@@ -1,7 +1,7 @@
 {
   "name": "com.lordbreakerx.editorutilities",
   "displayName": "LordBreakerX's Editor Utilities",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "unity": "6000.3",
   "unityRelease": "7f1",
   "description": "Expands UI Toolkit with modular classes making it \neasy to add lists, editor panels, decorated foldouts \nand selection popups.",
