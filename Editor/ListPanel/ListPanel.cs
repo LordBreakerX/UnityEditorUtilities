@@ -132,6 +132,10 @@ namespace LordBreakerX.EditorUtilities
                 item.SetName(name);
                 item.SetData(data);
 
+                System.Type dataType = data.GetType();
+                Texture icon = GetIcon(dataType);
+                item.SetIcon(icon);
+
                 if (name == "")
                 {
                     item.SetName(GetDefaultName(index));
@@ -144,6 +148,11 @@ namespace LordBreakerX.EditorUtilities
                 }
             }
 
+        }
+
+        protected virtual Texture GetIcon(System.Type dataType)
+        {
+            return null;
         }
 
         public void SetHeaderTitle(string headerTitle)

@@ -8,6 +8,8 @@ namespace LordBreakerX.EditorUtilities
     {
         private const string ITEM_UXML_PATH = "Packages/com.lordbreakerx.editorutilities/Editor/ListPanel/ListItemUI.uxml";
 
+        private Image _headerIcon;
+
         private TextField _renameField;
 
         private Label _elementLabel;
@@ -23,13 +25,37 @@ namespace LordBreakerX.EditorUtilities
             VisualTreeAsset treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(ITEM_UXML_PATH);
             treeAsset.CloneTree(this);
 
+            _headerIcon = this.Q<Image>("header-icon");
+            _headerIcon.style.display = DisplayStyle.None;
+            _headerIcon.style.width = 32;
+            _headerIcon.style.height = 32;
+            _headerIcon.scaleMode = ScaleMode.ScaleToFit;
+            _headerIcon.style.flexShrink = 0;
+            _headerIcon.style.paddingRight = 10;
+
             _renameField = this.Q<TextField>("rename-field");
+
             _elementLabel = this.Q<Label>("element-label");
+            _elementLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
 
             ParentListView = parentListView;
             ParentPanel = parentPanel;
 
             this.AddManipulator(new ContextualMenuManipulator(CreateContextMenu));
+        }
+
+        public void SetIcon(Texture icon)
+        {
+            _headerIcon.image = icon;
+            
+            if (icon == null)
+            {
+                _headerIcon.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                _headerIcon.style.display = DisplayStyle.Flex;
+            }
         }
 
         private void CreateContextMenu(ContextualMenuPopulateEvent evt)
