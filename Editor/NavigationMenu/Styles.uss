@@ -17,7 +17,7 @@
     -unity-font-style: bold;
     align-items: center;
     justify-content: flex-start;
-    -unity-text-align: middle-left;
+    -unity-text-align: middle-center;
 }
 
 #header-container:hover 
