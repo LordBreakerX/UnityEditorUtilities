@@ -2,6 +2,7 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:VisualElement name="list-item-container" style="flex-grow: 1; justify-content: center;">
+        <ui:Image name="header-icon" />
         <ui:TextField name="rename-field" style="flex-grow: 1;" />
         <ui:Label name="element-label" style="flex-grow: 1;" />
     </ui:VisualElement>
