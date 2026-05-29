@@ -30,10 +30,8 @@ namespace LordBreakerX.EditorUtilities
 
             _headerIcon = this.Q<Image>("header-icon");
             _headerIcon.style.display = DisplayStyle.None;
-            _headerIcon.style.width = 32;
-            _headerIcon.style.height = 32;
             _headerIcon.scaleMode = ScaleMode.ScaleToFit;
-            _headerIcon.style.flexShrink = 0;
+            _headerIcon.style.flexShrink = 1;
             _headerIcon.style.paddingRight = 10;
 
             _renameField = this.Q<TextField>("rename-field");
