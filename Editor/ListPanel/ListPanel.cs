@@ -171,10 +171,7 @@ namespace LordBreakerX.EditorUtilities
             return item.ToString();
         }
 
-        public virtual void SetItemName(IList itemsSource, int index, string name)
-        {
-
-        }
+        public abstract void SetItemName(IList itemsSource, int index, string name);
 
         public void SetItemsSource(List<T> items)
         {
@@ -193,6 +190,16 @@ namespace LordBreakerX.EditorUtilities
         public virtual void OnRename(string newName)
         {
 
+        }
+
+        public void HideAddButton()
+        {
+            _addButton.style.display = DisplayStyle.None;
+        }
+
+        public void ShowAddButton()
+        {
+            _addButton.style.display = DisplayStyle.Flex;
         }
     }
 }

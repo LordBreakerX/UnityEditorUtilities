@@ -106,7 +106,18 @@ namespace LordBreakerX.EditorUtilities
 
         private void OnFinishedRename(BlurEvent evt)
         {
-            StopRename();
+            _elementLabel.text = _renameField.value;
+
+            if (_data != null)
+            {
+                int index = ParentListView.itemsSource.IndexOf(_data);
+
+                ParentPanel.SetItemName(ParentListView.itemsSource, index, _renameField.value);
+
+                ParentPanel.OnRename(_renameField.value);
+
+                ParentListView.Rebuild();
+            }
         }
 
         public void StartRename()
@@ -125,19 +136,6 @@ namespace LordBreakerX.EditorUtilities
         {
             _renameField.style.display = DisplayStyle.None;
             _elementLabel.style.display = DisplayStyle.Flex;
-
-            _elementLabel.text = _renameField.value;
-
-            if (_data != null)
-            {
-                int index = ParentListView.itemsSource.IndexOf(_data);
-
-                ParentPanel.SetItemName(ParentListView.itemsSource, index, _renameField.value);
-
-                ParentPanel.OnRename(_renameField.value);
-
-                ParentListView.Rebuild();
-            }
         }
     }
 }
