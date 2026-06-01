@@ -69,23 +69,14 @@ namespace LordBreakerX.EditorUtilities
                 StartRename();
             });
 
-            evt.menu.AppendAction($"Delete {ParentPanel.ItemDisplayName}", (action) => 
-            {
-                if (_data != null)
-                {
-                    ParentListView.itemsSource.Remove(_data);
-                    ParentListView.Rebuild();
-                }
-            });
+            evt.menu.AppendAction($"Delete {ParentPanel.ItemDisplayName}", (action) => ParentPanel.RemoveItem(_data));
 
             evt.menu.AppendAction($"Duplicate {ParentPanel.ItemDisplayName}", (action) => 
             {
                 if (_data != null)
                 {
                     T copiedData = ParentPanel.CopyItem(_data);
-                    ParentListView.itemsSource.Add(copiedData);
-
-                    ParentListView.Rebuild();
+                    ParentPanel.AddItem(copiedData);
                 }
             });
 
@@ -115,16 +106,7 @@ namespace LordBreakerX.EditorUtilities
 
         private void OnFinishedRename(BlurEvent evt)
         {
-            _elementLabel.text = _renameField.value;
-
-            if (_data != null)
-            {
-                int index = ParentListView.itemsSource.IndexOf(_data);
-
-                ParentPanel.SetItemName(ParentListView.itemsSource, index, _renameField.value);
-            }
-
-            ParentListView.Rebuild();
+            StopRename();
         }
 
         public void StartRename()
@@ -143,6 +125,19 @@ namespace LordBreakerX.EditorUtilities
         {
             _renameField.style.display = DisplayStyle.None;
             _elementLabel.style.display = DisplayStyle.Flex;
+
+            _elementLabel.text = _renameField.value;
+
+            if (_data != null)
+            {
+                int index = ParentListView.itemsSource.IndexOf(_data);
+
+                ParentPanel.SetItemName(ParentListView.itemsSource, index, _renameField.value);
+
+                ParentPanel.OnRename(_renameField.value);
+
+                ParentListView.Rebuild();
+            }
         }
     }
 }

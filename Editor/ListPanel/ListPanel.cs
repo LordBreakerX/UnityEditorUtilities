@@ -189,5 +189,10 @@ namespace LordBreakerX.EditorUtilities
         }
 
         public abstract T CopyItem(T data);
+
+        public virtual void OnRename(string newName)
+        {
+
+        }
     }
 }
