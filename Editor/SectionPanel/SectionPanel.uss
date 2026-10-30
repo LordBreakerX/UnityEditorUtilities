@@ -20,7 +20,17 @@
     -unity-text-align: middle-left;
 }
 
-Button {
+#properties-panel-container 
+{
+    min-height: 200px;
+    min-width: 200px;
+}
+
+.darker-foldout > Toggle {
+    background-color: #292929;
+}
+
+.add-button {
     background-color: transparent;
     border-width: 0;
     padding: 0;
@@ -35,10 +45,10 @@ Button {
     font-size: 20px;
 }
 
-Button:hover {
+.add-button:hover {
     background-color: transparent;
 }
 
-Button:active {
+.add-button:active {
     background-color: transparent;
 }
