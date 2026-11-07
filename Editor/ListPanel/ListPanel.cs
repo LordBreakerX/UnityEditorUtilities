@@ -68,7 +68,7 @@ namespace LordBreakerX.EditorUtilities
             };
         }
 
-        private ContextualMenuManipulator CreateContextualManipulator()
+        protected virtual ContextualMenuManipulator CreateContextualManipulator()
         {
             return new ContextualMenuManipulator((evt) =>
             {
@@ -81,6 +81,11 @@ namespace LordBreakerX.EditorUtilities
                     }
                 });
             });
+        }
+
+        protected virtual ContextualMenuManipulator OnCreateItemContextMenu(ListItem<T> item)
+        {
+            return new ContextualMenuManipulator((evt) => {});
         }
 
         protected abstract T CreateItem();
@@ -111,6 +116,8 @@ namespace LordBreakerX.EditorUtilities
 
             item.RegisterEvents();
 
+            item.AddManipulator(OnCreateItemContextMenu(item));
+
             return item;
         }
 
@@ -133,8 +140,7 @@ namespace LordBreakerX.EditorUtilities
                 item.SetName(name);
                 item.SetData(data);
 
-                System.Type dataType = data.GetType();
-                Texture icon = GetIcon(dataType);
+                Texture icon = GetIcon(data);
                 item.SetIcon(icon);
 
                 if (name == "")
@@ -151,7 +157,7 @@ namespace LordBreakerX.EditorUtilities
 
         }
 
-        protected virtual Texture GetIcon(System.Type dataType)
+        protected virtual Texture GetIcon(T data)
         {
             return null;
         }
@@ -201,5 +207,7 @@ namespace LordBreakerX.EditorUtilities
         {
             _addButton.style.display = DisplayStyle.Flex;
         }
+
+        public void RefreshItems() => _listView.RefreshItems();
     }
 }

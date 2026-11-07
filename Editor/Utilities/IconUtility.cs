@@ -27,5 +27,6 @@ namespace LordBreakerX.EditorUtilities
                 return null;
         }
 
+        public static Texture GetTypeIcon(object obj) => GetTypeIcon(obj.GetType());
     }
 }

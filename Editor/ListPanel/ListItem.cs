@@ -20,6 +20,8 @@ namespace LordBreakerX.EditorUtilities
 
         protected ListView ParentListView { get; private set; }
 
+        public T Data { get => _data; }
+
         public ListItem(ListPanel<T> parentPanel, ListView parentListView)
         {
             VisualTreeAsset treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(ITEM_UXML_PATH);
